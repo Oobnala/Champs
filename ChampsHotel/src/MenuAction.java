@@ -254,11 +254,48 @@ public class MenuAction {
 	}
 	
 	public void deleteRes(int uID) {
+		System.out.println("You have selected to cancel a reservation!");
+		System.out.println("Enter the reservation ID to cancel your reservation:");
 		
+		try {
+			while (sc.hasNext()) {
+				int resID = sc.nextInt();
+				
+				String cancelRes = "DELETE FROM reservations " + "WHERE resID = ? AND uID = ?";
+				PreparedStatement ps = conn.prepareStatement(cancelRes);
+				ps.setInt(1, resID);
+				ps.setInt(2, uID);
+				
+				int delete = ps.executeUpdate();
+				if (delete == 0) {
+					System.out.println("Invalid reservation ID, please enter again.");
+				} else {
+					System.out.println("Successfully cancel the reservation!");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 	}
 	
 	public void viewRes(int uID) {
+		System.out.println("You reservations are:");
 		
+		try {
+			String view = "SELECT * FROM reservations " + "WHERE uID = " + uID;
+			Statement st = conn.createStatement();
+			
+			ResultSet rs = st.executeQuery(view);
+			while (rs.next()) {
+				System.out.println("-----------------------------");
+				System.out.println("Reservation ID: " + rs.getInt("resID"));
+				System.out.println("Room ID: " + rs.getInt("roomID"));
+				System.out.println("Total Price: " + rs.getInt("totalPrice"));
+				System.out.println("Check in Date: " + rs.getString("checkin"));
+				System.out.println("Check out Date: " + rs.getString("checkout"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
