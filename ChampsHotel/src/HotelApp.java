@@ -11,7 +11,7 @@ public class HotelApp {
 
 	// Use your password for mySQL
 	/** The password for the MySQL account (or empty for anonymous) */
-	private final String password = "";
+	private final String password = "Koko8764735!";
 
 	/** The name of the computer running MySQL */
 	private final String serverName = "localhost";
