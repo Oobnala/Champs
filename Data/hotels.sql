@@ -69,6 +69,6 @@ CREATE TABLE Archive
  updatedAt DATE
 );
 
-LOAD DATA LOCAL INFILE '/Users/oobnala/Desktop/cs157A/Champs/users.txt' INTO TABLE Users;
-LOAD DATA LOCAL INFILE '/Users/oobnala/Desktop/cs157A/Champs/rooms.txt' INTO TABLE Rooms;
-LOAD DATA LOCAL INFILE '/Users/oobnala/Desktop/cs157A/Champs/amenities.txt' INTO TABLE Amenities;
+LOAD DATA LOCAL INFILE 'users.txt' INTO TABLE Users;
+LOAD DATA LOCAL INFILE 'rooms.txt' INTO TABLE Rooms;
+LOAD DATA LOCAL INFILE 'amenities.txt' INTO TABLE Amenities;
