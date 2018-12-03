@@ -37,7 +37,7 @@ public class Menu {
 		MenuAction action = new MenuAction();
 		System.out.println("Welcome, " + name +"!");
 		System.out.println("Would you like to: ");
-		System.out.println("[1]: Make a reservation [2]: Delete a Reservation [3]: View your reservation(s) [4]: Exit");
+		System.out.println("[1]: Make a reservation [2]: Delete a Reservation [3]: View your reservation(s) [4]: Search [5]: Exit");
 		
 		while (sc.hasNext()) {
 			String userInput = sc.nextLine();
@@ -51,10 +51,13 @@ public class Menu {
 				action.viewRes(uID);
 			}
 			else if(userInput.equals("4")) {
+				action.search(name, uID);
+			}
+			else if(userInput.equals("5")) {
 				System.out.println("Exiting Application");
 				System.exit(0);
 			}
 		}
 	}
-	
+		
 }

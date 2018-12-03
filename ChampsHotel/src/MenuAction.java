@@ -275,6 +275,7 @@ public class MenuAction {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
 	}
 	
 	public void viewRes(int uID) {
@@ -298,4 +299,113 @@ public class MenuAction {
 		}
 	}
 	
+	public void search(String name, int uID) {
+		System.out.println("-------");
+		System.out.println("SEARCH");
+		System.out.println("-------");
+		System.out.println();
+		System.out.println("Please select a room capacity to search all rooms available");
+		System.out.println("[1]: One person [2]: Two people [3]: All [4]: Return to User Menu");
+		
+		int capacity = 0;
+	
+		try {
+			while (sc.hasNext()) {
+				String userInput = sc.nextLine();
+				if (userInput.equals("1")) {
+					capacity = 1;
+					break;
+				} 
+				else if(userInput.equals("2")) {
+					capacity = 2;
+					break;
+				}
+				else if(userInput.equals("3")) {
+					searchAll(name, uID);
+					break;
+				}
+				else if(userInput.equals("4")) {
+					System.out.println("Returning to User Menu.");
+					menu.userMenu(name, uID);
+				}
+			}
+			
+			String search = "SELECT * FROM Rooms JOIN Amenities using (roomID) " +
+							"WHERE capacity = " + capacity;
+			
+			Statement st = conn.createStatement();		
+			ResultSet rs = st.executeQuery(search);
+			
+			viewRooms(rs);
+			fiterAction(search, name, uID);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void searchAll(String name, int uID) {
+		try {
+			String search = "SELECT * FROM Rooms JOIN Amenities using (roomID)";
+			Statement stat = conn.createStatement();
+			
+			ResultSet rs = stat.executeQuery(search);
+			
+			viewRooms(rs);
+			
+			fiterAction(search, name, uID);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void viewRooms(ResultSet rs) throws SQLException {
+		while(rs.next()) {
+			System.out.println("----------------");
+			System.out.println("Room ID: " + rs.getString("roomID"));
+			System.out.println("Room type: " + rs.getString("roomType"));
+			System.out.println("Room number: " + rs.getString("roomNumber"));
+			System.out.println("Number of beds: " + rs.getString("numOfBeds"));
+			System.out.println("Guest capacity: " + rs.getString("capacity"));
+			System.out.println("Room price per night: " + rs.getString("price"));
+			System.out.println("Internet: "  + rs.getBoolean("internet"));
+			System.out.println("Room service: "  + rs.getBoolean("roomService"));
+			System.out.println("Television: "  + rs.getBoolean("television"));
+		}
+	}
+	
+	//	WORK IN PROGRESS
+	public void fiterAction(String searchQuery, String name, int uID) throws SQLException {
+		MenuAction action = new MenuAction();
+		System.out.println();
+		System.out.println("Select an option");
+		System.out.println("[1]: Filter by price [2]: Filter by number of beds [3]: Filter by room type [3]: All [4]: Return to search");
+	
+		String filterQuery = "";
+		while (sc.hasNext()) {
+			String userInput = sc.nextLine();
+			if (userInput.equals("1")) {
+				//filterQuery = searchQuery + " ORDER BY price";
+				break;
+			} 
+			else if(userInput.equals("2")) {
+				//filterQuery = searchQuery + " GROUP BY numOfBeds";
+				break;
+				
+			}
+			else if(userInput.equals("3")) {
+				//filterQuery = searchQuery + " GROUP BY roomType";
+				break;
+			}
+			else if(userInput.equals("4")) {
+				action.search(name, uID);
+			}
+		}
+		
+		Statement stat = conn.createStatement();
+		
+		//ResultSet rs = stat.executeQuery(filterQuery);
+		//viewRooms(rs);
+	}
 }
