@@ -56,8 +56,39 @@ public class Menu {
 			else if(userInput.equals("5")) {
 				System.out.println("Exiting Application");
 				System.exit(0);
-			}
 		}
 	}
+
+	public void adminMenu(String fullName, int uID) {
+		System.out.println("Welcome, " + fullName +" - ADMIN!!");
+		System.out.println("Would you like to: ");
+		do { 
+		System.out.println("[1]: View all reservation");
+		System.out.println("[2]: View all made reservations by users to view all room info and amenities ");
+		System.out.println("[3]: Modify Reservation");
+		System.out.println("[4]: Cancel Reservation");
+		System.out.println("[5]: Change Password of a user");
+		System.out.println("[6]: Exit");
 		
+		Administrator admin = new Administrator();
+
+		String userInput = sc.nextLine();	
+		if(userInput.equals("1")){
+			admin.viewAllRes();
+		} else if(userInput.equals("2")) {
+			admin.viewAllInfo();
+		} else if(userInput.equals("3")) {
+			admin.modifyRes();
+		} else if(userInput.equals("4")) {
+			admin.deleteRes();
+		} else if(userInput.equals("5")) {
+			admin.changeUserPwd();
+		} else if(userInput.equals("6")) {
+			System.out.println("Exiting Application");
+			System.exit(0);
+		}
+			
+		}while(sc.hasNext());
+	}
+	
 }

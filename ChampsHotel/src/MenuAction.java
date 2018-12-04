@@ -57,6 +57,9 @@ public class MenuAction {
 			if(result.getInt(1) == 1 && role.equals("USER")) {
 				System.out.println();
 				menu.userMenu(fullName, uID);
+			} else if (result.getInt(1) == 1 && role.equals("ADMIN")) {
+				System.out.println();
+				menu.adminMenu(fullName, uID);
 			} else {
 				System.out.println("Incorrect information.");
 				System.out.println();
@@ -298,7 +301,7 @@ public class MenuAction {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void search(String name, int uID) {
 		System.out.println("-------");
 		System.out.println("SEARCH");
