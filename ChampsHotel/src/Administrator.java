@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,12 +11,14 @@ import java.util.Scanner;
 public class Administrator {
 	private HotelApp app;
 	private Scanner sc;
+	private Menu menu;
 	private Connection conn;
 	
 	public Administrator() {
 		app = new HotelApp();
 		sc = new Scanner(System.in);
 		conn = app.getConnection();
+		menu = new Menu();
 	}
 
 	public void viewAllRes() {
@@ -203,6 +206,49 @@ public class Administrator {
 				System.out.println("Television: " + rs.getBoolean("television"));
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void archiveRes(String name, int uID) {
+		try {
+			Statement st = conn.createStatement();
+			
+			System.out.println("Please enter a cutoff date to archive reservations");
+			String date = sc.next();
+			
+			String callProc = "CALL archiveRes(" + "'" + java.sql.Date.valueOf(date) + "'" + ")";
+			st.executeQuery(callProc);	
+			System.out.println("Reservation(s) archived!");
+			menu.archiveMenu(name, uID);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void viewArchive(String name, int uID) {
+		Statement st;
+		try {
+			st = conn.createStatement();
+			System.out.println("Here are all reservations that are archived");
+			
+			String archiveView = "SELECT * FROM Archive";
+			ResultSet rs2 = st.executeQuery(archiveView);
+			
+			while(rs2.next()) {
+				System.out.println("----------------------------");
+				System.out.println("Reservation ID: " + rs2.getInt("resID"));
+				System.out.println("Room ID: " + rs2.getInt("roomID"));
+				System.out.println("User ID: " + rs2.getInt("uID"));
+				System.out.println("Total Price: " + rs2.getInt("totalPrice"));
+				System.out.println("Checkin: " + rs2.getDate("checkIn"));
+				System.out.println("Checkout: " + rs2.getDate("checkOut"));
+				System.out.println("Updated At: " + rs2.getDate("updatedAt"));
+			}
+			menu.archiveMenu(name, uID);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

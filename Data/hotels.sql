@@ -71,6 +71,21 @@ CREATE TABLE Archive
  updatedAt DATE
 );
 
+DROP PROCEDURE IF EXISTS archiveRes;
+DELIMITER //
+CREATE PROCEDURE archiveRes(IN cutOff DATE)
+BEGIN
+	INSERT INTO Archive(resID, roomID, uID, totalPrice, checkIn, checkOut, updatedAt)
+    SELECT *
+    FROM Reservations
+    WHERE DATE(updatedAt) < cutOff;
+	DELETE FROM Reservations
+	WHERE DATE(updatedAt) < cutOff;
+
+END //
+DELIMITER ;
+
+
 DROP TRIGGER IF EXISTS Conflict2;
 DELIMITER |
 CREATE TRIGGER Conflict2
@@ -84,7 +99,7 @@ BEGIN
 END;|
 DELIMITER ;
 
-LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/users.txt' INTO TABLE Users;
-LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/rooms.txt' INTO TABLE Rooms;
-LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/amenities.txt' INTO TABLE Amenities;
-LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/ratings.txt' INTO TABLE Rating;
+LOAD DATA LOCAL INFILE 'users.txt' INTO TABLE Users;
+LOAD DATA LOCAL INFILE 'rooms.txt' INTO TABLE Rooms;
+LOAD DATA LOCAL INFILE 'amenities.txt' INTO TABLE Amenities;
+LOAD DATA LOCAL INFILE 'ratings.txt' INTO TABLE Rating;

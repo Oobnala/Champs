@@ -288,7 +288,7 @@ public class MenuAction {
 		}
 	}
 	
-	public void viewRes(int uID) {
+	public void viewRes(String name, int uID) {
 		System.out.println("You reservations are:");
 		
 		try {
@@ -304,9 +304,50 @@ public class MenuAction {
 				System.out.println("Check in Date: " + rs.getString("checkin"));
 				System.out.println("Check out Date: " + rs.getString("checkout"));
 			}
+			System.out.println();
+			
+			System.out.println("Would you like to:");
+			System.out.println("[1] View total price of all reservations [2] Return to User Menu");
+			
+			while (sc.hasNext()) {
+				String userInput = sc.nextLine();
+				if (userInput.equals("1")) {
+					calculateTotal(name, uID);
+					break;
+				} 
+				else if(userInput.equals("2")) {
+					System.out.println("Returning to User Menu.");
+					menu.userMenu(name, uID);
+				}
+			}
+			
+			menu.userMenu(name, uID);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void calculateTotal(String name, int uID) {
+
+		try {
+			String sum = "SELECT SUM(totalPrice) sum FROM Reservations " +
+					"WHERE uID = " + uID;
+
+			Statement st;
+			st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sum);
+			
+			System.out.println("The total amount you owe for your reservation(s) is:");
+			while(rs.next()) {
+				System.out.println("$" + rs.getInt("sum"));
+			}
+			System.out.println();
+			viewRes(name, uID);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+
 	}
 
 	public void search(String name, int uID) {
@@ -347,7 +388,7 @@ public class MenuAction {
 			ResultSet rs = st.executeQuery(search);
 			
 			viewRooms(rs);
-			fiterAction(search, name, uID);
+			menu.sortMenu(search, name, uID);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -363,7 +404,7 @@ public class MenuAction {
 			
 			viewRooms(rs);
 			
-			fiterAction(search, name, uID);
+			menu.sortMenu(search, name, uID);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -385,37 +426,12 @@ public class MenuAction {
 		}
 	}
 	
-	//	WORK IN PROGRESS
-	public void fiterAction(String searchQuery, String name, int uID) throws SQLException {
-		MenuAction action = new MenuAction();
-		System.out.println();
-		System.out.println("Select an option");
-		System.out.println("[1]: Filter by price [2]: Filter by number of beds [3]: Filter by room type [3]: All [4]: Return to search");
-	
-		String filterQuery = "";
-		while (sc.hasNext()) {
-			String userInput = sc.nextLine();
-			if (userInput.equals("1")) {
-				//filterQuery = searchQuery + " ORDER BY price";
-				break;
-			} 
-			else if(userInput.equals("2")) {
-				//filterQuery = searchQuery + " GROUP BY numOfBeds";
-				break;
-				
-			}
-			else if(userInput.equals("3")) {
-				//filterQuery = searchQuery + " GROUP BY roomType";
-				break;
-			}
-			else if(userInput.equals("4")) {
-				action.search(name, uID);
-			}
-		}
-		
+	public void sort(String searchQuery, String sortQuery, String name, int uID) throws SQLException {
+
 		Statement stat = conn.createStatement();
 		
-		//ResultSet rs = stat.executeQuery(filterQuery);
-		//viewRooms(rs);
+		ResultSet rs = stat.executeQuery(sortQuery);
+		viewRooms(rs);
+		menu.sortMenu(searchQuery, name, uID);
 	}
 }

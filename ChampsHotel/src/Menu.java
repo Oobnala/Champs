@@ -1,4 +1,6 @@
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 public class Menu {
 	
@@ -48,7 +50,7 @@ public class Menu {
 				action.deleteRes(uID);
 			}
 			else if(userInput.equals("3")) {
-				action.viewRes(uID);
+				action.viewRes(name,uID);
 			}
 			else if(userInput.equals("4")) {
 				action.search(name, uID);
@@ -60,6 +62,7 @@ public class Menu {
 			else if(userInput.equals("6")) {
 				System.out.println("Exiting Application");
 				System.exit(0);
+			}
 		}
 	}
 
@@ -72,7 +75,8 @@ public class Menu {
 		System.out.println("[3]: Modify Reservation");
 		System.out.println("[4]: Cancel Reservation");
 		System.out.println("[5]: Change Password of a user");
-		System.out.println("[6]: Exit");
+		System.out.println("[6]: Archive reservations");
+		System.out.println("[7]: Exit");
 		
 		Administrator admin = new Administrator();
 
@@ -88,6 +92,8 @@ public class Menu {
 		} else if(userInput.equals("5")) {
 			admin.changeUserPwd();
 		} else if(userInput.equals("6")) {
+			archiveMenu(fullName, uID);
+		} else if(userInput.equals("7")) {
 			System.out.println("Exiting Application");
 			System.exit(0);
 		}
@@ -95,4 +101,43 @@ public class Menu {
 		}while(sc.hasNext());
 	}
 	
+	public void sortMenu(String searchQuery, String name, int uID) throws SQLException {
+		MenuAction action = new MenuAction();
+		System.out.println();
+		System.out.println("Select an option");
+		System.out.println("[1]: Sort by price high - low [2]: Sort by price low - high [3]: Return to search");
+	
+		String sortQuery = "";
+		while (sc.hasNext()) {
+			String userInput = sc.nextLine();
+			if (userInput.equals("1")) {
+				sortQuery = searchQuery + " ORDER BY price DESC";
+				break;
+			} 
+			else if(userInput.equals("2")) {
+				sortQuery = searchQuery + " ORDER BY price ASC";
+				break;
+				
+			}
+			else if(userInput.equals("3")) {
+				action.search(name, uID);
+			}
+		}
+		action.sort(searchQuery, sortQuery, name, uID);
+	}
+	
+	public void archiveMenu(String name, int uID) {
+		Administrator admin = new Administrator();
+		System.out.println("Would you like to: ");
+		System.out.println("[1] Arcive reservations [2] View Archive [3] Return to Admin menu");
+		String option = sc.nextLine();
+		
+		if (option.equals("1")) {
+			admin.archiveRes(name, uID);
+		} else if (option.equals("2")) {
+			admin.viewArchive(name, uID);
+		} else if (option.equals("3")) {
+			adminMenu(name, uID);
+		}
+	}	
 }
