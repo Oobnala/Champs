@@ -8,7 +8,7 @@ public class HotelApp {
 
 	private final String userName = "root";
 	// Use your password for mySQL
-	private final String password = "Koko8764735!";
+	private final String password = "";
 	private final String serverName = "localhost";
 	private final int portNumber = 3306;
 	private final String dbName = "HOTEL";
