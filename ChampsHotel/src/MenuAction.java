@@ -57,6 +57,9 @@ public class MenuAction {
 			if(result.getInt(1) == 1 && role.equals("USER")) {
 				System.out.println();
 				menu.userMenu(fullName, uID);
+			} else if (result.getInt(1) == 1 && role.equals("ADMIN")) {
+				System.out.println();
+				menu.adminMenu(fullName, uID);
 			} else {
 				System.out.println("Incorrect information.");
 				System.out.println();
@@ -198,20 +201,21 @@ public class MenuAction {
 			System.out.println("Please enter a checkout date (YYYY-MM-DD): ");
 			String checkout = sc.nextLine();
 			
-			int numberOfNights = numberOfNights(checkin, checkout);
-			int totalPrice = numberOfNights * priceOfRoom;
-			System.out.println("Number of nights: " + numberOfNights);
-			System.out.println("Total Price: $" + totalPrice);
 			
 			System.out.println("Would you like to confirm this reservation?");
 			System.out.println("[1]: Yes [2]: No");
 			String confirmation = sc.nextLine();
 			if(confirmation.equals("1")) {
+				int numberOfNights = numberOfNights(checkin, checkout);
+				int totalPrice = numberOfNights * priceOfRoom;
+				
 				String reservation = "INSERT INTO Reservations(roomID, uID, totalPrice, checkin, checkout) " + 
 				  		 "VALUES ('"+roomID+"', '"+uID+"', '"+totalPrice+"', '"+checkin+"', '"+checkout+"' )";
 				Statement st = conn.createStatement();
 				st.executeUpdate(reservation);
-				System.out.println("Reservation Complete!");
+				System.out.println("Reservation Complete! Here is your reservation info: ");
+				System.out.println("Number of nights: " + numberOfNights);
+				System.out.println("Total Price: $" + totalPrice);
 			}
 			else if (confirmation.equals("2")) {
 				System.out.println("Returning to User Menu.");
@@ -219,8 +223,14 @@ public class MenuAction {
 			}
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			if (e instanceof SQLException) {
+				System.out.println("Error: " + e.getMessage());
+			} else {
+				e.printStackTrace();
+			}
+		} finally {
+			System.out.println("Returning to User Menu.");
+			menu.userMenu(name, uID);
 		}
 		
 		
@@ -298,7 +308,7 @@ public class MenuAction {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void search(String name, int uID) {
 		System.out.println("-------");
 		System.out.println("SEARCH");
