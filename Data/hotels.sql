@@ -55,6 +55,8 @@ CREATE TABLE Rating
 (score INT CHECK(score >= 1 AND score <= 5),
  review VARCHAR(150),
  uID INT,
+ resID INT,
+ FOREIGN KEY(resID) REFERENCES Reservations(resID),
  FOREIGN KEY(uID) REFERENCES Users(uID)
 );
 
@@ -69,7 +71,20 @@ CREATE TABLE Archive
  updatedAt DATE
 );
 
-LOAD DATA LOCAL INFILE 'users.txt' INTO TABLE Users;
-LOAD DATA LOCAL INFILE 'rooms.txt' INTO TABLE Rooms;
-LOAD DATA LOCAL INFILE 'amenities.txt' INTO TABLE Amenities;
-LOAD DATA LOCAL INFILE 'ratings.txt' INTO TABLE Rating;
+DROP TRIGGER IF EXISTS Conflict2;
+DELIMITER |
+CREATE TRIGGER Conflict2
+BEFORE INSERT ON Reservations
+FOR EACH ROW
+BEGIN
+	IF (New.checkin > New.checkout) THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Invalid reservation time, check-out date should be after check-in date';
+    END IF;
+END;|
+DELIMITER ;
+
+LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/users.txt' INTO TABLE Users;
+LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/rooms.txt' INTO TABLE Rooms;
+LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/amenities.txt' INTO TABLE Amenities;
+LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/ratings.txt' INTO TABLE Rating;
