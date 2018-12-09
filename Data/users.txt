@@ -1,4 +1,4 @@
-	Admin	admin@admin.com 	(444) 444 4444	ADMIN	TEST123
+	Admin	admin@admin.com	(444) 444 4444	ADMIN	TEST123
 	Alan Boo	alan.boo@sjsu.edu	(111) 111 1111	USER	mypassword
 	Yihua Li	yihua.li@sjsu.edu	(333) 333 3333	USER	password
 	Ian Duron	ian.duron@sjsu.edu	(222) 222 2222	USER	password
