@@ -96,7 +96,7 @@ public class Administrator {
 				roomType = "DOUBLE";
 				System.out.println("How many beds would you like: ");
 				System.out.println("[1]: One bed [2]: 2 beds");
-				String userInput2 = sc.nextLine();
+				String userInput2 = sc.next();
 				if (userInput2.equals("1")) {
 					numOfBeds = 1;				
 				}
