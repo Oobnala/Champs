@@ -41,16 +41,8 @@ public class Rating {
 			String comment = "";
 			System.out.println("Please enter your reservation ID to verify:");
 			int resID = Integer.parseInt(sc.nextLine());
-			System.out.println("Please rate our hotel in a scale of 1 to 5(1 is lowest and 5 is highest");
-			while (sc.hasNext()) {
-				score = Integer.parseInt(sc.nextLine());
-				if (score < 1 || score >5) {
-					System.out.println("Invalid score, please try again");
-				}
-				else {
-					break;
-				}
-			}
+			System.out.println("Please rate our hotel in a scale of 1 to 5(1 is lowest and 5 is highest)");
+			score = Integer.parseInt(sc.nextLine());
 			System.out.println("Please leave your comment: ");
 			comment = sc.nextLine();
 			
@@ -69,10 +61,11 @@ public class Rating {
 			else {
 				System.out.println("Successfully submit your review! Returning to the main menu..");
 			}
-			menu.userMenu(name, uID);
-			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			System.out.println("Returning to the main menu");
+			menu.userMenu(name, uID);
 		}
 	}
 }
