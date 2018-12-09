@@ -68,7 +68,7 @@ public class Administrator {
 		String resId = sc.next();
 		System.out.println("Select an option to select room type: ");
 		System.out.println("[1]: SINGLE [2]: DOUBLE [3]: Return to Admin Menu");
-		String userInput = sc.nextLine();
+		String userInput = sc.next();
 		String roomType = "";
 		int numOfBeds = 1;
 		int priceOfRoom = 0;
@@ -128,6 +128,7 @@ public class Administrator {
 
 			while(rs2.next()) {
 				priceOfRoom = rs2.getInt("price");
+				System.out.println("HI: "+priceOfRoom);
 			}
 			
 			System.out.println("Please enter a checkin date (YYYY-MM-DD): ");
