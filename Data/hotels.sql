@@ -127,8 +127,8 @@ BEGIN
 END;|
 DELIMITER ;
 
-LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/users.txt' INTO TABLE Users;
-LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/rooms.txt' INTO TABLE Rooms;
-LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/amenities.txt' INTO TABLE Amenities;
-LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/reservations.txt' INTO TABLE Reservations;
-LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/ratings.txt' INTO TABLE Rating;
+LOAD DATA LOCAL INFILE 'users.txt' INTO TABLE Users;
+LOAD DATA LOCAL INFILE 'rooms.txt' INTO TABLE Rooms;
+LOAD DATA LOCAL INFILE 'amenities.txt' INTO TABLE Amenities;
+LOAD DATA LOCAL INFILE 'reservations.txt' INTO TABLE Reservations;
+LOAD DATA LOCAL INFILE 'ratings.txt' INTO TABLE Rating;

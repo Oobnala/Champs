@@ -4,6 +4,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+/**
+ * Connect to HOTEL database, MySQL
+ * Menu object created in main to start console application
+ * Make sure password is correct for local MySQL database.
+ */
 public class HotelApp {
 
 	private final String userName = "root";

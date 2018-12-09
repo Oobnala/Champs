@@ -10,6 +10,11 @@ public class Menu {
 		sc = new Scanner(System.in);
 	}
 
+	/**
+	 *  Displays the main menu. 
+	 *  Users executes login and register function that
+	 *  are in Menu actions
+	 */
 	public void mainMenu() {
 		MenuAction action = new MenuAction();
 		System.out.println("Select an option:");
@@ -35,6 +40,14 @@ public class Menu {
 		}
 	}
 	
+	/**
+	 * Displays a user menu to users that are not admins.
+	 * Each option executes functions in MenuAction and Rating class.
+	 * Users can exit application from this menu.
+	 * 
+	 * @param name of user logged in
+	 * @param uID id of user
+	 */
 	public void userMenu(String name, int uID) {
 		MenuAction action = new MenuAction();
 		Rating rating = new Rating();
@@ -75,6 +88,13 @@ public class Menu {
 		}
 	}
 
+	/**
+	 * The admin menu that has the role ADMIN in database.
+	 * Each menu option will execute functions in Administrator class.
+	 * 
+	 * @param fullName name of user
+	 * @param uID id of user
+	 */
 	public void adminMenu(String fullName, int uID) {
 		System.out.println("Welcome, " + fullName +" - ADMIN!!");
 		System.out.println("Would you like to: ");
@@ -113,6 +133,15 @@ public class Menu {
 		}while(sc.hasNext());
 	}
 	
+	/**
+	 * Displays sort menu in after user searches by capacity.
+	 * Will sort by price and execute a MenuAction function sort.
+	 * 
+	 * @param searchQuery original search query
+	 * @param name of user
+	 * @param uID of user
+	 * @throws SQLException
+	 */
 	public void sortMenu(String searchQuery, String name, int uID) throws SQLException {
 		MenuAction action = new MenuAction();
 		System.out.println();
@@ -138,6 +167,15 @@ public class Menu {
 		action.sort(searchQuery, sortQuery, name, uID);
 	}
 	
+	/**
+	 * The archive menu displayed to admins.
+	 * Admins can execute to archive reservations
+	 * or view all reservations that are archived.
+	 * Functions in Administrator class are executed.
+	 * 
+	 * @param name of user
+	 * @param uID of user
+	 */
 	public void archiveMenu(String name, int uID) {
 		Administrator admin = new Administrator();
 		System.out.println("Would you like to: ");
