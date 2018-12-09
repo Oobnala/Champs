@@ -8,12 +8,18 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
+	/**
+	 * administrator user
+	 */
 public class Administrator {
 	private HotelApp app;
 	private Scanner sc;
 	private Menu menu;
 	private Connection conn;
 	
+	/**
+ 	* administrator user constructor
+	*/
 	public Administrator() {
 		app = new HotelApp();
 		sc = new Scanner(System.in);
@@ -21,6 +27,10 @@ public class Administrator {
 		menu = new Menu();
 	}
 
+
+	/**
+	 * this method allows the admin to view current reservations
+	 */
 	public void viewAllRes() {
 		System.out.println("List of reservations:");
 		
@@ -42,6 +52,9 @@ public class Administrator {
 		}		
 	}
 
+	/**
+	 * this method allows the admin to delete reservations
+	 */
 	public void deleteRes() {
 		System.out.println("Enter the reservation ID you wish to cancel:");
 		
@@ -63,6 +76,9 @@ public class Administrator {
 		}
 	}
 
+	/**
+	 * this method allows the admin to modify reservations
+	 */
 	public void modifyRes() {
 		System.out.println("Enter the reservation ID you wish to modify:");		
 		String resId = sc.next();
@@ -160,6 +176,9 @@ public class Administrator {
 		}
 	}
 
+	/**
+	 * this method allows the admin to change a user's password
+	 */
 	public void changeUserPwd() {
 		System.out.println("Enter the email ID of the user whose password you wish to change:");
 		String email = sc.next();
@@ -183,6 +202,10 @@ public class Administrator {
 		}
 	}
 
+	/**
+	 * this method allows the admin to view all information related to hotel schema
+	 * e.g. reservation ID, room ID, room type, room number, number of beds
+	 */
 	public void viewAllInfo() {
 		try {
 			
@@ -209,6 +232,12 @@ public class Administrator {
 		}
 	}
 	
+	/**
+	 * this method allows the admin to archive reservations
+	 *
+	 * @param name the name you want to give the archived reservation
+	 * @param uID the uID ssociated with the reservation
+	 */
 	public void archiveRes(String name, int uID) {
 		try {
 			Statement st = conn.createStatement();
@@ -226,6 +255,13 @@ public class Administrator {
 		}
 	}
 	
+
+	/**
+	 * this method allows the admin to view current archived information
+	 *
+	 * @param name the name you want to give the archived reservation
+	 * @param uID the uID ssociated with the reservation
+	 */
 	public void viewArchive(String name, int uID) {
 		Statement st;
 		try {
@@ -252,6 +288,13 @@ public class Administrator {
 		}
 	}
 	
+
+	/**
+	 * the number of nights to reserve
+	 *
+	 * @param checkin the checkin date
+	 * @param checkout the checkout date
+	 */
 	public int numberOfNights(String checkin, String checkout) {
 		String[] checkinDate = checkin.split("-");
 		String[] checkoutDate = checkout.split("-");
@@ -279,6 +322,9 @@ public class Administrator {
 		return numberOfNights;
 	}
 	
+	/**
+	 * view users who have made more than 1 reservation
+	 */
 	public void viewRegulars() {
 		try {
 		Statement st = conn.createStatement();
