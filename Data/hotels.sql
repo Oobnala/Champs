@@ -52,13 +52,14 @@ ALTER TABLE Reservations AUTO_INCREMENT = 2001;
 
 DROP TABLE IF EXISTS Rating;
 CREATE TABLE Rating
-(score INT CHECK(score >= 1 AND score <= 5),
+(score INT,
  review VARCHAR(150),
  uID INT,
  resID INT,
  FOREIGN KEY (resID) REFERENCES Reservations (resID) ON DELETE CASCADE,
  FOREIGN KEY (uID) REFERENCES Users (uID)
 );
+ALTER TABLE Rating ADD CHECK (score >= 1 AND score <=5);
 
 DROP TABLE IF EXISTS Archive;
 CREATE TABLE Archive
@@ -113,8 +114,21 @@ BEGIN
 END;|
 DELIMITER ;
 
-LOAD DATA LOCAL INFILE 'users.txt' INTO TABLE Users;
-LOAD DATA LOCAL INFILE 'rooms.txt' INTO TABLE Rooms;
-LOAD DATA LOCAL INFILE 'amenities.txt' INTO TABLE Amenities;
-LOAD DATA LOCAL INFILE 'reservations.txt' INTO TABLE Reservations;
-LOAD DATA LOCAL INFILE 'ratings.txt' INTO TABLE Rating;
+DROP TRIGGER IF EXISTS Conflict3;
+DELIMITER |
+CREATE TRIGGER Conflict3
+BEFORE INSERT ON Rating
+FOR EACH ROW
+BEGIN
+	IF (New.score > 5 OR New.score < 1) THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Score should be between 1-5';
+    END IF;
+END;|
+DELIMITER ;
+
+LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/users.txt' INTO TABLE Users;
+LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/rooms.txt' INTO TABLE Rooms;
+LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/amenities.txt' INTO TABLE Amenities;
+LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/reservations.txt' INTO TABLE Reservations;
+LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/ratings.txt' INTO TABLE Rating;
