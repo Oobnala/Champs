@@ -141,7 +141,7 @@ public class Menu {
 	public void archiveMenu(String name, int uID) {
 		Administrator admin = new Administrator();
 		System.out.println("Would you like to: ");
-		System.out.println("[1] Arcive reservations [2] View Archive [3] Return to Admin menu");
+		System.out.println("[1] Archive reservations [2] View Archive [3] Return to Admin menu");
 		String option = sc.nextLine();
 		
 		if (option.equals("1")) {

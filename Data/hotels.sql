@@ -5,11 +5,11 @@ USE HOTEL;
 DROP TABLE IF EXISTS Users;
 CREATE TABLE Users
 (uID INT AUTO_INCREMENT,
- fullName VARCHAR(50),
- email VARCHAR(50),
+ fullName VARCHAR(50) NOT NULL,
+ email VARCHAR(50) NOT NULL,
  phone VARCHAR(15),
  role VARCHAR(15),
- password VARCHAR(20),
+ password VARCHAR(20) NOT NULL,
  PRIMARY KEY (uID)
 );
 ALTER TABLE Users AUTO_INCREMENT = 101;
@@ -41,8 +41,8 @@ CREATE TABLE Reservations
  roomID INT,
  uID INT,
  totalPrice INT,
- checkin DATE,
- checkout DATE,
+ checkin DATE NOT NULL,
+ checkout DATE NOT NULL,
  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
  PRIMARY KEY (resID),
  FOREIGN KEY (roomID) REFERENCES Rooms (roomID),
@@ -68,7 +68,9 @@ CREATE TABLE Archive
  totalPrice INT,
  checkIn DATE,
  checkOut DATE,
- updatedAt DATE
+ updatedAt DATE,
+ FOREIGN KEY (resID) REFERENCES Reservations (resID),
+ FOREIGN KEY (uID) REFERENCES Users (uID)
 );
 
 DROP PROCEDURE IF EXISTS archiveRes;
@@ -112,8 +114,8 @@ BEGIN
 END;|
 DELIMITER ;
 
-LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/users.txt' INTO TABLE Users;
-LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/rooms.txt' INTO TABLE Rooms;
-LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/amenities.txt' INTO TABLE Amenities;
-LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/ratings.txt' INTO TABLE Rating;
-LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/reservations.txt' INTO TABLE Reservations;
+LOAD DATA LOCAL INFILE 'users.txt' INTO TABLE Users;
+LOAD DATA LOCAL INFILE 'rooms.txt' INTO TABLE Rooms;
+LOAD DATA LOCAL INFILE 'amenities.txt' INTO TABLE Amenities;
+LOAD DATA LOCAL INFILE 'reservations.txt' INTO TABLE Reservations;
+LOAD DATA LOCAL INFILE 'ratings.txt' INTO TABLE Rating;
