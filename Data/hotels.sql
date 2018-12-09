@@ -85,6 +85,19 @@ BEGIN
 END //
 DELIMITER ;
 
+DROP TRIGGER IF EXISTS Conflict1;
+DELIMITER |
+CREATE TRIGGER Conflict1
+BEFORE INSERT ON Reservations
+FOR EACH ROW 
+BEGIN
+	IF EXISTS( SELECT * FROM Reservations WHERE new.checkIn <= checkOut AND new.checkOut >= checkIn AND new.roomID = roomID) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'A reservation was made during selected date. Please try again';
+	END IF;
+END;|
+DELIMITER ;
+
 
 DROP TRIGGER IF EXISTS Conflict2;
 DELIMITER |
