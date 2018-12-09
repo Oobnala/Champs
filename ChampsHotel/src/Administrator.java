@@ -115,7 +115,6 @@ public class Administrator {
 				System.out.println("Television: "  + rs1.getBoolean("television"));
 				System.out.println("----------------");
 			}
-
 			System.out.println("Please enter the roomID you would like to reserve.");
 			int roomID = Integer.parseInt(sc.nextLine());
 			
@@ -280,4 +279,20 @@ public class Administrator {
 		return numberOfNights;
 	}
 	
+	public void viewRegulars() {
+		try {
+		Statement st = conn.createStatement();
+		System.out.println("The regulars are: ");
+		String listRegulars = "SELECT fullName, count(*) AS Reservations FROM Users NATURAL JOIN Reservations " + "GROUP BY uID HAVING COUNT(*) > 1";
+		
+		System.out.println("User Name" + "\t" + "Reservations");
+		System.out.println("------------------------------------");
+		ResultSet rs = st.executeQuery(listRegulars);
+		while (rs.next()) {
+			System.out.println(rs.getString("fullName") + "\t" + rs.getInt("Reservations"));
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+	}
 }

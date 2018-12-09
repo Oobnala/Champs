@@ -167,6 +167,7 @@ public class MenuAction {
 			
 			ResultSet rs1 = stmt1.executeQuery();
 			
+			
 			while(rs1.next()) {
 				System.out.println("----------------");
 				System.out.println("Room ID: " + rs1.getString("roomID"));
