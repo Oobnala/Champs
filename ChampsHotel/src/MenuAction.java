@@ -18,6 +18,11 @@ public class MenuAction {
 		conn = app.getConnection();
 	}
 	
+	/**
+	 * LOGIN for users or admin.
+	 * Users or admin login with their email or password.
+	 * Functional Requirement 1
+	 */
 	public void Login() {
 			
 		try {
@@ -30,6 +35,7 @@ public class MenuAction {
 			System.out.println("Enter your password");
 			String password = sc.nextLine();
 			
+			// Requirement 1
 			String credentials = "SELECT count(*) FROM Users " + 
 								 "WHERE email = ? AND password = ?";
 			
@@ -40,6 +46,7 @@ public class MenuAction {
 			ResultSet result = stmt.executeQuery();
 			result.next();
 			
+			// check if inputted email is in Users
 			String findName = "SELECT * FROM Users " +
 							  "WHERE email = ?";
 			
@@ -48,12 +55,14 @@ public class MenuAction {
 			
 			ResultSet result2 = stmt2.executeQuery();
 			
+			// Get uID, name, and role from ResultSet after executing query
 			while(result2.next()) {
 				uID = result2.getInt("uID");
 				fullName = result2.getString("fullName");
 				role = result2.getString("role");
 			}
 
+			// Check if user or admin is logging in
 			if(result.getInt(1) == 1 && role.equals("USER")) {
 				System.out.println();
 				menu.userMenu(fullName, uID);
@@ -75,6 +84,11 @@ public class MenuAction {
 		
 	}
 
+	/**
+	 * Register a user
+	 * Users enter full name, email, phone number, and pass
+	 * Functional Requirement 16
+	 */
 	public void Register() {
 		
 		try {
@@ -100,6 +114,7 @@ public class MenuAction {
 				System.out.println("Re-enter your password");
 				String password2 = sc.nextLine();
 				
+				// check if re-entered password is equal
 				if (password1.equals(password2)) {
 					passwordCheck = false;
 					break;
@@ -108,7 +123,7 @@ public class MenuAction {
 				}
 				
 			}
-			
+			// Requirement 16
 			String userDetails = "INSERT INTO Users(fullName, email, phone, role, password) " + 
 						  		 "VALUES ('"+fullName+"', '"+email+"', '"+phoneNumber+"', '"+role+"', '"+password1+"' )";
 			
@@ -122,6 +137,16 @@ public class MenuAction {
 		}		
 	}
 	
+	/**
+	 * Make a reservation based capacity.
+	 * Displays all reservation information based on the capacity entered.
+	 * Users enter a roomID they want to reserve.
+	 * Calculates the total price based on number of nights.
+	 * Presents all information to the user after a completed reservation.
+	 * 
+	 * @param name of users
+	 * @param uID of users
+	 */
 	public void makeRes(String name, int uID) {
 		System.out.println("You have selected to make a reservation!");
 		System.out.println("Select an option to select room type: ");
@@ -237,6 +262,13 @@ public class MenuAction {
 		
 	}
 	
+	/**
+	 * Calculates the number of nights a user will stay at the hotel.
+	 * 
+	 * @param checkin date
+	 * @param checkout date
+	 * @return
+	 */
 	public int numberOfNights(String checkin, String checkout) {
 		String[] checkinDate = checkin.split("-");
 		String[] checkoutDate = checkout.split("-");
@@ -264,6 +296,11 @@ public class MenuAction {
 		return numberOfNights;
 	}
 	
+	/**
+	 * A user can delete their own reservation.
+	 * 
+	 * @param uID of User
+	 */
 	public void deleteRes(int uID) {
 		System.out.println("You have selected to cancel a reservation!");
 		System.out.println("Enter the reservation ID to cancel your reservation:");
@@ -289,6 +326,13 @@ public class MenuAction {
 		}
 	}
 	
+	/**
+	 * A function where users can view all their reservations
+	 * Executes a query to access all reservations
+	 * 
+	 * @param name
+	 * @param uID
+	 */
 	public void viewRes(String name, int uID) {
 		System.out.println("You reservations are:");
 		
@@ -328,6 +372,12 @@ public class MenuAction {
 		}
 	}
 
+	/**
+	 * Calculates the total price of all reservations a user has.
+	 * 
+	 * @param name
+	 * @param uID
+	 */
 	public void calculateTotal(String name, int uID) {
 
 		try {
@@ -351,6 +401,14 @@ public class MenuAction {
 
 	}
 
+	/**
+	 * Search by capacity function.
+	 * User selects a capacity they want
+	 * which will display the correlated room.
+	 * 
+	 * @param name 
+	 * @param uID
+	 */
 	public void search(String name, int uID) {
 		System.out.println("-------");
 		System.out.println("SEARCH");
@@ -396,6 +454,12 @@ public class MenuAction {
 		
 	}
 	
+	/**
+	 * Search all rooms that has amenities.
+	 * 
+	 * @param name of user
+	 * @param uID of user
+	 */
 	public void searchAll(String name, int uID) {
 		try {
 			String search = "SELECT * FROM Rooms JOIN Amenities using (roomID)";
@@ -412,6 +476,13 @@ public class MenuAction {
 		}
 	}
 	
+	/**
+	 * Display all room information
+	 * when executed.
+	 * 
+	 * @param rs from query
+	 * @throws SQLException
+	 */
 	public void viewRooms(ResultSet rs) throws SQLException {
 		while(rs.next()) {
 			System.out.println("----------------");
@@ -427,6 +498,15 @@ public class MenuAction {
 		}
 	}
 	
+	/**
+	 * Sort by price function that executes query either ASC or DESC
+	 * 
+	 * @param searchQuery original search query
+	 * @param sortQuery original search query with ORDER BY string
+	 * @param name of user
+	 * @param uID of user
+	 * @throws SQLException
+	 */
 	public void sort(String searchQuery, String sortQuery, String name, int uID) throws SQLException {
 
 		Statement stat = conn.createStatement();
