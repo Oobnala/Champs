@@ -116,7 +116,7 @@ public class Administrator {
 				System.out.println("----------------");
 			}
 			System.out.println("Please enter the roomID you would like to reserve.");
-			int roomID = Integer.parseInt(sc.nextLine());
+			int roomID = Integer.parseInt(sc.next());
 			
 			String getPrice = "SELECT price FROM Rooms " + 
 								 "WHERE roomID = ?";
@@ -128,13 +128,12 @@ public class Administrator {
 
 			while(rs2.next()) {
 				priceOfRoom = rs2.getInt("price");
-				System.out.println("HI: "+priceOfRoom);
 			}
 			
 			System.out.println("Please enter a checkin date (YYYY-MM-DD): ");
-			String checkin = sc.nextLine();
+			String checkin = sc.next();
 			System.out.println("Please enter a checkout date (YYYY-MM-DD): ");
-			String checkout = sc.nextLine();
+			String checkout = sc.next();
 
 			int numberOfNights = numberOfNights(checkin, checkout);
 			int totalPrice = numberOfNights * priceOfRoom;
@@ -143,7 +142,7 @@ public class Administrator {
 			
 			System.out.println("Would you like to confirm this reservation?");
 			System.out.println("[1]: Yes [2]: No");
-			String confirmation = sc.nextLine();
+			String confirmation = sc.next();
 			if(confirmation.equals("1")) {
 				String reservation = "UPDATE Reservations SET roomID="+roomID+" , totalPrice=" + totalPrice + " , checkin='"+ checkin+"', checkout='" + 
 						checkout+"' WHERE resID = "+resId;

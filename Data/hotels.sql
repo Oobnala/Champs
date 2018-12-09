@@ -56,7 +56,7 @@ CREATE TABLE Rating
  review VARCHAR(150),
  uID INT,
  resID INT,
- FOREIGN KEY (resID) REFERENCES Reservations (resID),
+ FOREIGN KEY (resID) REFERENCES Reservations (resID) ON DELETE CASCADE,
  FOREIGN KEY (uID) REFERENCES Users (uID)
 );
 
@@ -69,7 +69,6 @@ CREATE TABLE Archive
  checkIn DATE,
  checkOut DATE,
  updatedAt DATE,
- FOREIGN KEY (resID) REFERENCES Reservations (resID),
  FOREIGN KEY (uID) REFERENCES Users (uID)
 );
 
