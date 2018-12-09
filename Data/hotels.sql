@@ -56,8 +56,8 @@ CREATE TABLE Rating
  review VARCHAR(150),
  uID INT,
  resID INT,
- FOREIGN KEY(resID) REFERENCES Reservations(resID),
- FOREIGN KEY(uID) REFERENCES Users(uID)
+ FOREIGN KEY (resID) REFERENCES Reservations (resID),
+ FOREIGN KEY (uID) REFERENCES Users (uID)
 );
 
 DROP TABLE IF EXISTS Archive;
@@ -99,7 +99,8 @@ BEGIN
 END;|
 DELIMITER ;
 
-LOAD DATA LOCAL INFILE 'users.txt' INTO TABLE Users;
-LOAD DATA LOCAL INFILE 'rooms.txt' INTO TABLE Rooms;
-LOAD DATA LOCAL INFILE 'amenities.txt' INTO TABLE Amenities;
-LOAD DATA LOCAL INFILE 'ratings.txt' INTO TABLE Rating;
+LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/users.txt' INTO TABLE Users;
+LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/rooms.txt' INTO TABLE Rooms;
+LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/amenities.txt' INTO TABLE Amenities;
+LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/ratings.txt' INTO TABLE Rating;
+LOAD DATA LOCAL INFILE 'D:/SJSU/CS157A/Champs/Data/reservations.txt' INTO TABLE Reservations;

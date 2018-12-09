@@ -37,9 +37,16 @@ public class Menu {
 	
 	public void userMenu(String name, int uID) {
 		MenuAction action = new MenuAction();
+		Rating rating = new Rating();
 		System.out.println("Welcome, " + name +"!");
 		System.out.println("Would you like to: ");
-		System.out.println("[1]: Make a reservation [2]: Delete a Reservation [3]: View your reservation(s) [4]: Search [5]: Leave a rating and comment [6]Exit");
+		System.out.println("[1]: Make a reservation");
+		System.out.println("[2]: Delete a Reservation");
+		System.out.println("[3]: View your reservation(s)");
+		System.out.println("[4]: Search");
+		System.out.println("[5]: View most positive rating(s)");
+		System.out.println("[6]: Leave a rating and comment");
+		System.out.println("[7]: Exit");
 		
 		while (sc.hasNext()) {
 			String userInput = sc.nextLine();
@@ -56,10 +63,12 @@ public class Menu {
 				action.search(name, uID);
 			}
 			else if(userInput.equals("5")) {
-				Rating rating = new Rating();
-				rating.review(name, uID);
+				rating.viewHighest();
 			}
 			else if(userInput.equals("6")) {
+				rating.review(name, uID);
+			}
+			else if(userInput.equals("7")) {
 				System.out.println("Exiting Application");
 				System.exit(0);
 			}
@@ -75,8 +84,9 @@ public class Menu {
 		System.out.println("[3]: Modify Reservation");
 		System.out.println("[4]: Cancel Reservation");
 		System.out.println("[5]: Change Password of a user");
-		System.out.println("[6]: Archive reservations");
-		System.out.println("[7]: Exit");
+		System.out.println("[6]: View regulars");
+		System.out.println("[7]: Archive reservations");
+		System.out.println("[8]: Exit");
 		
 		Administrator admin = new Administrator();
 
@@ -92,8 +102,10 @@ public class Menu {
 		} else if(userInput.equals("5")) {
 			admin.changeUserPwd();
 		} else if(userInput.equals("6")) {
-			archiveMenu(fullName, uID);
+			admin.viewRegulars();
 		} else if(userInput.equals("7")) {
+			archiveMenu(fullName, uID);
+		} else if(userInput.equals("8")) {
 			System.out.println("Exiting Application");
 			System.exit(0);
 		}
